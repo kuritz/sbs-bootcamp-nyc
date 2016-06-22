@@ -35,7 +35,7 @@ Download and install the CLI here:
 
 Ensure that Python is installed. Once python is installed, run this command:
 
-```bash
+```
 pip install awscli
 ```
 
@@ -60,7 +60,7 @@ First, sign in to the AWS console and create a new IAM user.
 
 Now that you have an IAM user and the CLI is installled, you can configure the CLI by using this command:
 
-```bash
+```
 aws configure
 ```
 
@@ -70,7 +70,7 @@ It will prompt you for an Access Key and Secret Key that you generated above. Co
 
 First, you will need to clone this project directory. It will have everything you need to be a rockstar Simple Beer Service developer. Run the following command. Open up **Terminal** on a mac, **Bash Shell** on Linux, or the **Command Prompt** on Windows.
 
-```bash
+```
 cd <path/to/my/project/directory>
 git clone https://github.com/jerwallace/sbs-bootcamp.git
 ```
@@ -78,7 +78,7 @@ git clone https://github.com/jerwallace/sbs-bootcamp.git
 
 Next, run the following commands in your new directory.
 
-```bash
+```
 cd sbs-bootcamp
 npm install
 cd client
@@ -102,7 +102,7 @@ npm install
 
 Now that we have all of the packages installed, let's launch our Serverless Environment.
 
-```bash
+```
 cd <path/to/sbs-bootcamp>
 sls project init
 ```
@@ -155,6 +155,8 @@ So, we have our environment all setup, let's create the resources we need within
 
 ## Edit the device and client code.
 
+### The Publisher
+
 OK. We are just crusing along! Now, open up **device/sbs-simulator.js** in your favourite text editor. This application will send data to the *AWS IoT Device Gateway* and simulate a running Simple Beer Service unit.
 
 In the first section of the code, you will notice the following code block:
@@ -173,7 +175,7 @@ Update these fields to point to the files that you downloaded above and the regi
 
 Now, let's run it and test it out!
 
-```bash
+```
 cd <path/to/sbs-bootcamp/device>
 node sbs-simulator.js
 ```
@@ -186,6 +188,14 @@ While this application is running, to see if it is actually coming into AWS IoT,
 
 1. Open the AWS IoT Console.
 2. Click on **MQTT Client**. Type in *test* into the Client ID field and press **Connect**
-![](readme-images/iot-mqtt-client.png)
+![](readme-images/iot-mqtt-connect.png)
 3. Click on **Subscribe to Topic**. Type in *sbs/#* in the topic name field and press **Subscribe**.
 ![](readme-images/iot-mqtt-subscribe.png)
+
+You now should see messages flowing in here!
+
+> Not seeing this? Raise your hand and we can help you out.
+
+### The Subscriber
+
+Open up the

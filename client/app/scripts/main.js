@@ -104,7 +104,6 @@ $( document ).ready(function() {
             '<div class="humidity"><span class="placeholder-title">HUMIDITY</span><span class="value" id="humidity-'+sbsID+'-value">0</span>%</div>'+
             '</div></div>');
     }
-  }
 
 /**
  * Converts an RBG color array [R,G,B] to a css style.

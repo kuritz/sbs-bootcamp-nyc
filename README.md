@@ -17,6 +17,7 @@ You will need the following tools to get started today.
 2. A GitHub account. Need one? [Create one today!](https://github.com/join)
 3. The version control system Git. [Install here.](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 4. Recent version of Node.js installed. [Download here.](https://nodejs.org/en/download/)
+5. A text editor.. I recommend Atom. [Download here.](https://atom.io/)
 
 That's it for the prereqs! Now, let's install all the pre-reqs setup.
 
@@ -52,7 +53,7 @@ First, sign in to the AWS console and create a new IAM user.
 ![Creds](readme-images/iam-creds.png)
 
 4. Next, press **Close** and click on the newly created user. Click on the **Permissions** tab.
-![Creds](readme-images/iam-creds.png)
+![Creds](readme-images/iam-policies.png)
 
 5. For today's lab, we will give this user *Power User* access. Click **Attach Policy** in the section *Managed Policies*. This will lead you to a new screen. Start typing *PowerUserAcc* and it will filter to the **PowerUserAccess** managed policy. Click on the checkbox and press **Attach Policy**
 ![Creds](readme-images/power-user.png)
@@ -136,7 +137,7 @@ So, we have our environment all setup, let's create the resources we need within
 ![](readme-images/iot-create-certificate.png)
 5. Click on each link to download the **certificate**, **private key**, and **public key**.
 > **Important!!**
-> Save these certificates to the **sbs-bootcamp/device/certs** folder in your project directory.
+> Save these certificates to the **sbs-bootcamp/device/certs** folder in your project directory. You will also need one more file, the VeriSign root certificate. [Download that certificate here](https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem) and save it to the same certs directory.
 
 6. Click the **Create Policy** box.
 ![](readme-images/iot-create-policy.png)
@@ -151,3 +152,40 @@ So, we have our environment all setup, let's create the resources we need within
 ![](readme-images/iot-attach-thing-confirm.png)
 
 **Congratulations! You can now publish to AWS IoT!**
+
+## Edit the device and client code.
+
+OK. We are just crusing along! Now, open up **device/sbs-simulator.js** in your favourite text editor. This application will send data to the *AWS IoT Device Gateway* and simulate a running Simple Beer Service unit.
+
+In the first section of the code, you will notice the following code block:
+
+```javascript
+var device = awsIot.device({
+    keyPath: "cert/private.pem.key",
+    certPath: "cert/certificate.pem.crt",
+    caPath: "cert/root.pem.crt",
+    clientId: unitID,
+    region: "us-east-1"
+});
+```
+
+Update these fields to point to the files that you downloaded above and the region you selected.
+
+Now, let's run it and test it out!
+
+```bash
+cd <path/to/sbs-bootcamp/device>
+node sbs-simulator.js
+```
+
+You should see successful post messages.
+
+> Not seeing this? Raise your hand and we can help you out.
+
+While this application is running, to see if it is actually coming into AWS IoT, let's check out the MQTT Client in the AWS IoT Console.
+
+1. Open the AWS IoT Console.
+2. Click on **MQTT Client**. Type in *test* into the Client ID field and press **Connect**
+![](readme-images/iot-mqtt-client.png)
+3. Click on **Subscribe to Topic**. Type in *sbs/#* in the topic name field and press **Subscribe**.
+![](readme-images/iot-mqtt-subscribe.png)

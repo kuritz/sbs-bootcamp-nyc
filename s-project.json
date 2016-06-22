@@ -1,5 +1,11 @@
 {
   "name": "sbs-bootcamp",
-  "custom": {},
-  "plugins": []
+  "custom": {
+    "client": {
+        "bucketName": "${stage}.sbsbootcamp"
+    }
+  },
+  "plugins": [
+    "serverless-client-s3"
+  ]
 }

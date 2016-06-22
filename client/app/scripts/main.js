@@ -24,9 +24,9 @@ software license above.
 */
 
 /* CONSTANTS */
-// ============ CHANGE THESE VALUES BELOW =============== //
+// ============ CHANGE THIS =============== //
 
-var SBS_ENDPOINT = 'https://8e0z2fmak5.execute-api.us-west-2.amazonaws.com/v1dev/';
+var IDENTITY_POOL_ID = '<YOUR_IDENTITY_POOL>';
 
 // ============ REST OF CODE =============== //
 
@@ -57,13 +57,6 @@ var colors = {
 var timestamp = new Date().getTime();
 var bgToggle = 0;
 
-/* On page load, init Smoothie graphs */
-$(document).keypress(function(e) {
-  if(e.ctrlKey && e.altKey && (e.charCode==47)) {
-    setBackground();
-  }
-});
-
 $( document ).ready(function() {
 
   window.addEventListener('resize', resizeCanvas, !1);
@@ -76,7 +69,7 @@ $( document ).ready(function() {
   // Configure Cognito identity pool
   AWS.config.region = 'us-east-1';
   var credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-1:71cf65e1-ca17-49f8-8061-647dc002730c',
+      IdentityPoolId: IDENTITY_POOL_ID,
   });
 
   // Getting AWS creds from Cognito is async, so we need to drive the rest of the mqtt client initialization in a callback
@@ -100,31 +93,21 @@ $( document ).ready(function() {
  * @param {Function} callback The callback funciton.
  */
  function addSBSUnit(sbsID, callback) {
-   $.ajax({
-     dataType : 'json',
-     type:'GET',
-     url: SBS_ENDPOINT+sbsID,
-     success: function(data) {
-       console.log('Creating graph');
-       var info = data[sbsID];
-       if (sbsUnits[sbsID]===undefined) {
-         sbsUnits[sbsID] = { 'flow': new TimeSeries(), 'sound': new TimeSeries(), 'timestamp': new Date().getTime()};
-         flow.addTimeSeries(sbsUnits[sbsID]['flow'], { strokeStyle: colorToStyle(info.color, 1), fillStyle: colorToStyle(info.color, 0), lineWidth: 3 });
-         sound.addTimeSeries(sbsUnits[sbsID]['sound'], { strokeStyle: colorToStyle(info.color, 1), fillStyle: colorToStyle(info.color, 0), lineWidth: 3 });
-         $('#legend').append('<div id="legend-' + sbsID + '" class="legend-row"><div class="unittype"></div>'+
-                '<div class="colorblock" style="background:'+colorToStyle(info.color, 1)+';"><div class="short">'+info.short+'</div></div>'+
-                '<div class="location"><span class="placeholder-title">'+sbsID+'</span>'+info.full+'</div>'+
-                '<div class="dht"><div class="temp"><span class="placeholder-title">TEMP</span><span class="value" id="temperature-'+sbsID+'-value">0</span>°C</div>'+
-                '<div class="humidity"><span class="placeholder-title">HUMIDITY</span><span class="value" id="humidity-'+sbsID+'-value">0</span>%</div>'+
-                '</div></div>');
-        }
-        callback(null, null);
-     },
-     error: function(xhr) {
-        console.error('Could not get SBS Unit Information: | '+xhr);
-        callback(xhr, null);
+     var info = {
+       color: colors.chartgray,
+       full: sbsID,
+       short: ''
      }
-   });
+     sbsUnits[sbsID] = { 'flow': new TimeSeries(), 'sound': new TimeSeries(), 'timestamp': new Date().getTime()};
+     flow.addTimeSeries(sbsUnits[sbsID]['flow'], { strokeStyle: colorToStyle(info.color, 1), fillStyle: colorToStyle(info.color, 0), lineWidth: 3 });
+     sound.addTimeSeries(sbsUnits[sbsID]['sound'], { strokeStyle: colorToStyle(info.color, 1), fillStyle: colorToStyle(info.color, 0), lineWidth: 3 });
+     $('#legend').append('<div id="legend-' + sbsID + '" class="legend-row"><div class="unittype"></div>'+
+            '<div class="colorblock" style="background:'+colorToStyle(info.color, 1)+';"><div class="short">'+info.short+'</div></div>'+
+            '<div class="location"><span class="placeholder-title">'+sbsID+'</span>'+info.full+'</div>'+
+            '<div class="dht"><div class="temp"><span class="placeholder-title">TEMP</span><span class="value" id="temperature-'+sbsID+'-value">0</span>°C</div>'+
+            '<div class="humidity"><span class="placeholder-title">HUMIDITY</span><span class="value" id="humidity-'+sbsID+'-value">0</span>%</div>'+
+            '</div></div>');
+    }
   }
 
 /**

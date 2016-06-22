@@ -1,7 +1,7 @@
 var awsIot = require("aws-iot-device-sdk");
 var data = [];
 try {
-var unitID = "SBS001"
+var unitID = "sbsdemo"
 var device = awsIot.device({
     keyPath: "cert/private.pem.key",
     certPath: "cert/certificate.pem.crt",

@@ -21,6 +21,17 @@ You will need the following tools to get started today.
 
 That's it for the prereqs! Now, let's install all the pre-reqs setup.
 
+### Installing a few crucial node packages.
+
+There are two node packages we need to install globally, so that we can use them no matter what project we are working on. To do this, run the following command:
+
+```
+npm install -g serverless yo
+```
+
+> **What are these?!**
+> Serverless is the framework we will use to build the scaffolding for the entire project. YO, or Yeoman, is a popular static web application generator that we will use to build out the static S3 website.
+
 ### Setting up AWS CLI tools
 
 For this lab, you will need to have the AWS CLI tools installed.
@@ -102,8 +113,17 @@ npm install
 
 Now that we have all of the packages installed, let's launch our Serverless Environment.
 
+First, lets see all of the commands we can run. Type the following commands:
+
 ```
 cd <path/to/sbs-bootcamp>
+serverless
+```
+![](readme-images/serverless.png)
+
+Next, let's initialize our project. For the rest of the bootcamp, we can use the shorthand for serverless, **sls**. Run the following command:
+
+```
 sls project init
 ```
 
@@ -153,7 +173,60 @@ So, we have our environment all setup, let's create the resources we need within
 
 **Congratulations! You can now publish to AWS IoT!**
 
-## Edit the device and client code.
+## Creating the Cognito Identity Pool
+
+For the subscribing web application, we will be creating a Cognito Identity Pool to authenticate and authorize the end user to get data from our endpoint.
+
+1. Open the **Amazon Cognito** Console.
+2. Click **Manage Federated Identities**
+![](readme-images/cognito-front.png)
+> **What is Cognito User Pools?**
+> There are two flavours of Cognito. User Pools enables you to create and manage your own directory of users for your application. Federated Identities leverages an external indentity provider like Sign-in with Amazon, Facebook Login, Sign-in with Google, Twitter or any OpenID compatible directory.
+
+3. Click **Create new identity pool**. Name your identity pool and check the box *Enable access to unauthenticated identities*.
+![](readme-images/cognito-create-identity-pool.png)
+4. Click the dropdown for **Authentication Providers**. Note the different options you have here. You could link up a *Cognito User Pool*, or use one of the popular identity providers mentioned. For this bootcamp, we will not need to set this up.
+5. Press **Create Pool**.
+6. Next, it will bring us to a screen where we can setup the IAM roles that will be assumed by both an *Unauthenticated User* and an *Authenticated User*. Look at the policy documents to see how they are structured. Then press **Allow**.
+7. The final step is to give permission to an *Unauthenticated User* to subscribe to our AWS IoT Topic. To do this, click back to the list of AWS Services and open the **AWS Identity & Access Management Console**.
+8. On the left menu, click **Roles**.
+9. You will see all of your roles here. There is one role titled **Cognito_<YOUR_APP_NAME>AuthRole**. Click on this role.
+10. Under *Inline Policies*, press **Create Role Policy** to create a new inline IAM policy.
+![](readme-images/iam-permissions.png)
+11. Select the box **Custom Policy** and press **Select**.
+![](readme-images/iam-create-new-policy.png)
+12. Name the policy and copy and paste the following JSON text. **Remember to replace <REPLACE_WITH_ACCOUNT_NUMBER> with your actual account number**.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Connect",
+                "iot:Receive"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iot:Subscribe",
+            "Resource": [
+                "arn:aws:iot:us-east-1:147755086966:topicfilter/sbs/*"
+            ]
+        }
+    ]
+}
+```
+
+> **Note:** Replace *<REPLACE_WITH_ACCOUNT_NUMBER>* with your actual account number.
+
+13. Press **Apply Policy** and you are done!
+
+**Congratulations! You have successfully created your Cognito Identity Pool**
+
+## Code development.
 
 ### The Publisher
 
@@ -198,4 +271,23 @@ You now should see messages flowing in here!
 
 ### The Subscriber
 
-Open up the
+For this section, we will be working out of the **client** directory. This is where all of the files we need to build out the static web application. First, run this command to change the directory:
+
+```
+cd <path/to/sbs-bootcamp/client>
+```
+
+Before we get going, here is a quick intro to a tool called **Gulp**. Gulp is a task manager for Node.js applications. It enables us to wire up commands that will perform common tasks. Here are a few we will use today. Go ahead and try them out!
+
+> ```
+gulp serve
+```
+> This command will run a local webserver that is listening for any changes to your app directory. If there are an file changes, it will reload the local running web application. This is great for development, as you can see changes live as you update the code.
+> ```
+gulp build
+```
+> This command will package up all of the files you need for your static site and write them into your **/dist/** folder. This is the folder that serverless is using when it publishes your S3 static files.
+> ```
+gulp test
+```
+> This command will run the unit tests defined in the **/test/** folder. For this project, we have not defined any unit test.

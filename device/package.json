@@ -7,7 +7,7 @@
     "start": "node sbs.js"
   },
   "author": "Jeremy Wallace <jeremygw@amazon.com> (https://github.com/awslabs)",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "gulp-shell": "^0.5.2",
     "babel-core": "^6.4.0",

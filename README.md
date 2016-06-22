@@ -291,3 +291,34 @@ gulp build
 gulp test
 ```
 > This command will run the unit tests defined in the **/test/** folder. For this project, we have not defined any unit test.
+
+Awesome. Now you know how to work with Gulp! Next, let's open up **scripts/main.js** in Atom and copy and paste your identity pool ID from Cognito. You can get this from the Cognito console.
+
+1. Find the variable **IDENTITY_POOL_ID** and update the variable with your identity pool.
+2. Go back to the command line and type:
+```
+gulp build
+```
+3. Change the directory back to the main serverless directory and type:
+```
+sls client deploy
+```
+4. Serverless will output an S3 link. Put that S3 link in your browser and check out your static site!!
+
+## Bringing it all together
+
+Now, run both the publisher script as well as have a browser window open and pointing at the S3 website. Watch as data flows in!
+
+## Next steps
+
+Now is the **Choose Your Own Adventure** portion of the bootcamp. For the remainder of the afternoon, we will hack away. Here are some options you can choose from:
+- Create a new lambda function and associate it with your IoT topic.
+[Documentation Link](https://github.com/serverless/serverless/pull/1061)
+```
+sls function create
+```
+- Pipe the data into ElasticSearch or Cloudwatch Logs:
+[Documentation Link](https://aws.amazon.com/about-aws/whats-new/2016/03/aws-iot-integrates-with-elasticsearch-service-and-cloudwatch/)
+- Wire up an Intel Edison to send the data with the SBS app.
+
+Thanks for partipating and good luck!

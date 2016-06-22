@@ -1,8 +1,5 @@
 /**
 * SIMPLE BEER SERVICE | FRONT END CODE
-* This code uses AWS API Gateway to query DynamoDB and get the latest sensor data produced
-* by the Simple Beer Service compute unit.
-
 Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
@@ -18,8 +15,7 @@ software license above.
 
 * Constants to change
 * -------------------------------------------------------
-* SBS_ENDPOINT: The location of your SBS endpoint.
-* POLL_INTERVAL: How often you want to run the AJAX query.
+* IDENTITY_POOL_ID: The identity pool that you will use.
 * --------------------------------------------------------
 */
 

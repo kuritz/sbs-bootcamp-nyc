@@ -83,7 +83,7 @@ First, you will need to clone this project directory. It will have everything yo
 
 ```
 cd <path/to/my/project/directory>
-git clone https://github.com/jerwallace/sbs-bootcamp.git
+git clone https://github.com/jerwallace/sbs-bootcamp-nyc.git
 ```
 > **Note:** Replace *<path/to/my/project/directory>* with your actual directory you want to run this in.
 

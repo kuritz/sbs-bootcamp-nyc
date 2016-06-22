@@ -43,7 +43,6 @@ pip install awscli
 First, sign in to the AWS console and create a new IAM user.
 
 1. Create a new user by clicking **Create User** in the *IAM Console*.
-
 <img src="readme-images/iam-create-user.png" width="400">
 
 2. Name your user accordingly. Ensure the *Generate an access key* is checked.
@@ -71,10 +70,10 @@ It will prompt you for an Access Key and Secret Key that you generated above. Co
 First, you will need to clone this project directory. It will have everything you need to be a rockstar Simple Beer Service developer. Run the following command. Open up **Terminal** on a mac, **Bash Shell** on Linux, or the **Command Prompt** on Windows.
 
 ```bash
-cd </path/to/my/project/directory>
+cd <path/to/my/project/directory>
 git clone https://github.com/jerwallace/sbs-bootcamp.git
 ```
-> **Note:** Replace *</path/to/my/project/directory>* with your actual directory you want to run this in.
+> **Note:** Replace *<path/to/my/project/directory>* with your actual directory you want to run this in.
 
 Next, run the following commands in your new directory.
 
@@ -101,3 +100,54 @@ npm install
 ## Serverless Framework and You
 
 Now that we have all of the packages installed, let's launch our Serverless Environment.
+
+```bash
+cd <path/to/sbs-bootcamp>
+sls project init
+```
+
+> **Note:** Replace *<path/to/sbs-bootcamp>* with your actual root directory of the bootcamp files.
+
+The Serverless framework will now bring you through a wizard to setup your environment. For stage, type in your name.
+![Serverless](readme-images/serverless-init.png)
+
+This will now launch a CloudFormation template that will include all of the resources you need. This will take a while. Let's grab a coffee, it's time for a break.
+![Serverless Done](readme-images/serverless-init-done.png)
+
+> **What's in the CloudFormation template??**
+
+>Check it out! Open up s-resources-cf.json. In here is the cloudformation template that Serverless runs when you init a new project, create a new stage or update the resources associated with your project. In this project we have:
+- S3 bucket for web files.
+- CloudFront distribution associated with your S3 bucket as the origin.
+- Logging bucket for use later.
+
+**Congrats! You have successfully setup your Serverless enviroment.**
+
+## Setup AWS IoT
+
+So, we have our environment all setup, let's create the resources we need within AWS IoT so we can start sending some data.
+
+1. Open the AWS IoT Console.
+2. Click **Create Resource** on the top section of the console page.
+![](readme-images/iot-create-resource.png)
+3. Click the **Create Thing** box. Name the thing and press the **Create** button.
+![](readme-images/iot-create-thing.png)
+4. Click the **Create Certificates** box. Check the box *Activate* and then press the **1-click certificates** button.
+![](readme-images/iot-create-certificate.png)
+5. Click on each link to download the **certificate**, **private key**, and **public key**.
+> **Important!!**
+> Save these certificates to the **sbs-bootcamp/device/certs** folder in your project directory.
+
+6. Click the **Create Policy** box.
+![](readme-images/iot-create-policy.png)
+7. Make sure to click on the **Create** button at the bottom.
+![](readme-images/iot-create-policy-button.png)
+8. Click the **Create Policy** box. Allow access to all of IoT for this demo, but selecting **iot:\*** and **\***.
+![](readme-images/iot-create-policy.png)
+9. Attach the policy and thing to the certificate, by clicking the *checkbox* on the certificate and the respective links in the dropdown menu **Actions**.
+![](readme-images/iot-attach-policy.png)
+![](readme-images/iot-attach-policy-confirm.png)
+![](readme-images/iot-attach-thing.png)
+![](readme-images/iot-attach-thing-confirm.png)
+
+**Congratulations! You can now publish to AWS IoT!**

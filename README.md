@@ -12,6 +12,7 @@ Welcome to the Simple Beer Service developer bootcamp! I am excited to onboard *
 ### Prerequisites
 
 You will need the following tools to get started today.
+
 1. An AWS account, of course! [Create one today!](https://aws.amazon.com/getting-started/)
 2. A GitHub account. Need one? [Create one today!](https://github.com/join)
 3. The version control system Git. [Install here.](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -41,17 +42,30 @@ pip install awscli
 
 First, sign in to the AWS console and create a new IAM user.
 
-![Create User](readme-images/iam-create-user.png)
-![List User](readme-images/iam-users-list.png)
+1. Create a new user by clicking **Create User** in the *IAM Console*.
+
+![Create User](readme-images/iam-create-user.png | width=200)
+
+2. Name your user accordingly. Ensure the *Generate an access key* is checked.
+
+![List User](readme-images/iam-users-list.png | width=200)
+
+3. Save the access keys to your computer.
 ![Creds](readme-images/iam-creds.png)
 
-After the CLI is installed, you can configure the CLI by using this command:
+4. Next, press **Close** and click on the newly created user. Click on the **Permissions** tab.
+![Creds](readme-images/iam-creds.png)
+
+5. For today's lab, we will give this user *Power User* access. Click **Attach Policy** in the section *Managed Policies*. This will lead you to a new screen. Start typing *PowerUserAcc* and it will filter to the **PowerUserAccess** managed policy. Click on the checkbox and press **Attach Policy**
+![Creds](readme-images/power-user.png)
+
+Now that you have an IAM user and the CLI is installled, you can configure the CLI by using this command:
 
 ```bash
 aws configure
 ```
 
-It will prompt you for an Access Key and Secret
+It will prompt you for an Access Key and Secret Key that you generated above. Copy and paste those in.
 
 ### Cloning the repository and installing npm (Node Package Manager) libraries:
 
@@ -61,7 +75,7 @@ First, you will need to clone this project directory. It will have everything yo
 cd </path/to/my/project/directory>
 git clone https://github.com/jerwallace/sbs-bootcamp.git
 ```
-> *Note: Replace </path/to/my/project/directory> with your actual directory you want to run this in.*
+> **Note:** Replace *</path/to/my/project/directory>* with your actual directory you want to run this in.
 
 Next, run the following commands in your new directory.
 
@@ -76,10 +90,12 @@ cd device
 npm install
 ```
 > **What's going on here?**
-npm stands for *Node Package Manager*. There is a file in each directory titled *package.json*. Go ahead, open it up - I know you are curious!! In there you will see some meta data about the project. You will also see a list of dependencies. These are node modules that people have built which we are using within our app. A good example is the aws-iot-device-sdk module. When you run npm install, it simply goes through the list and installs all of the modules that are being used in this application. Since we have three components (Serverless Project, Device Code and the Client S3 code, we need to do this three times.)
+
+>npm stands for *Node Package Manager*. There is a file in each directory titled *package.json*. Go ahead, open it up - I know you are curious!! In there you will see some meta data about the project. You will also see a list of dependencies. These are node modules that people have built which we are using within our app. A good example is the aws-iot-device-sdk module. When you run npm install, it simply goes through the list and installs all of the modules that are being used in this application. Since we have three components (Serverless Project, Device Code and the Client S3 code, we need to do this three times.)
 
 > **How about bower, what's that?**
-Bower is similar to npm, in that is a package manager - however, it is geared towards client-side modules that will be included when you copy your static web application files to S3. The npm installs includes development scripts that you will use locally, but may not be packaged with the application. The bower installed modules will be packaged with the application and shipped to S3 when you deploy.
+
+>Bower is similar to npm, in that is a package manager - however, it is geared towards client-side modules that will be included when you copy your static web application files to S3. The npm installs includes development scripts that you will use locally, but may not be packaged with the application. The bower installed modules will be packaged with the application and shipped to S3 when you deploy.
 
 **Congrats! You are done setting up your environment**
 

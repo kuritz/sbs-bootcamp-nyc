@@ -43,12 +43,10 @@ pip install awscli
 First, sign in to the AWS console and create a new IAM user.
 
 1. Create a new user by clicking **Create User** in the *IAM Console*.
-
-![Create User](readme-images/iam-create-user.png | width=200)
+<img src="readme-images/iam-create-user.png" style="width:200px">
 
 2. Name your user accordingly. Ensure the *Generate an access key* is checked.
-
-![List User](readme-images/iam-users-list.png | width=200)
+<img src="readme-images/iam-users-list.png" style="width:200px">
 
 3. Save the access keys to your computer.
 ![Creds](readme-images/iam-creds.png)

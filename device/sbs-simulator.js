@@ -102,5 +102,5 @@ function run(callback) {
 
 } catch (e) {
   //console.log(e);
-  exit();
+  process.exit();
 }
